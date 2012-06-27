@@ -390,7 +390,7 @@ namespace NuGetGallery
             if (fakeBlobClient == null)
                 fakeBlobClient = new Mock<ICloudBlobClient>();
             
-            return new CloudBlobFileStorageService(fakeBlobClient.Object);
+            return new CloudBlobFileStorageService(fakeBlobClient.Object, Mock.Of<IConfiguration>());
         }
     }
 }
