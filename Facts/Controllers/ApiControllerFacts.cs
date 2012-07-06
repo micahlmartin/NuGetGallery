@@ -445,7 +445,7 @@ namespace NuGetGallery
                 packageSvc.Setup(x => x.AddDownloadStatistics(package, "Foo", "Qux")).Verifiable();
 
                 var packageFileSvc = new Mock<IPackageFileService>(MockBehavior.Strict);
-                packageFileSvc.Setup(s => s.CreateDownloadPackageActionResult(package)).Returns(actionResult).Verifiable();
+                packageFileSvc.Setup(s => s.CreateDownloadPackageActionResult(package, false)).Returns(actionResult).Verifiable();
                 var userSvc = new Mock<IUserService>(MockBehavior.Strict);
                 userSvc.Setup(x => x.FindByApiKey(guid)).Returns(new User());
 
@@ -480,7 +480,7 @@ namespace NuGetGallery
                 packageSvc.Setup(x => x.AddDownloadStatistics(package, "Foo", "Qux")).Verifiable();
 
                 var packageFileSvc = new Mock<IPackageFileService>(MockBehavior.Strict);
-                packageFileSvc.Setup(s => s.CreateDownloadPackageActionResult(package)).Returns(actionResult).Verifiable();
+                packageFileSvc.Setup(s => s.CreateDownloadPackageActionResult(package, false)).Returns(actionResult).Verifiable();
                 var userSvc = new Mock<IUserService>(MockBehavior.Strict);
                 userSvc.Setup(x => x.FindByApiKey(guid)).Returns(new User());
 

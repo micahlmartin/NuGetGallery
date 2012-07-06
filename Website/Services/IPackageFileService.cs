@@ -8,7 +8,7 @@ namespace NuGetGallery
         /// <summary>
         /// Creates an ActionResult that allows a third-party client to download the nupkg for the package.
         /// </summary>
-        ActionResult CreateDownloadPackageActionResult(Package package);
+        ActionResult CreateDownloadPackageActionResult(Package package, bool useCdn);
 
         /// <summary>
         /// Deletes the nupkg from the file storage.

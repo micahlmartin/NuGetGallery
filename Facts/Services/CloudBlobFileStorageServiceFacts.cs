@@ -67,7 +67,7 @@ namespace NuGetGallery
                 fakeBlob.Setup(x => x.Uri).Returns(new Uri("http://theUri"));
                 var service = CreateService(fakeBlobClient: fakeBlobClient);
 
-                service.CreateDownloadFileActionResult(folderName, "theFileName");
+                service.CreateDownloadFileActionResult(folderName, "theFileName", false);
 
                 fakeBlobContainer.Verify(x => x.GetBlobReference("theFileName"));
             }
@@ -83,7 +83,7 @@ namespace NuGetGallery
                 fakeBlob.Setup(x => x.Uri).Returns(new Uri("http://theUri"));
                 var service = CreateService(fakeBlobClient: fakeBlobClient);
 
-                var result = service.CreateDownloadFileActionResult(Constants.PackagesFolderName, "theFileName") as RedirectResult;
+                var result = service.CreateDownloadFileActionResult(Constants.PackagesFolderName, "theFileName", false) as RedirectResult;
 
                 Assert.NotNull(result);
                 Assert.Equal("http://theuri/", result.Url);

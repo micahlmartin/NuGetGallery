@@ -7,7 +7,8 @@ namespace NuGetGallery
     {
         ActionResult CreateDownloadFileActionResult(
             string folderName,
-            string fileName);
+            string fileName,
+            bool useCdn);
         
         void DeleteFile(
             string folderName, 

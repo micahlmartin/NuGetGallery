@@ -30,8 +30,19 @@ namespace NuGetGallery
             this.nugetExeDownloaderSvc = nugetExeDownloaderSvc;
         }
 
-        [ActionName("GetPackageApi"), HttpGet] 
+        [ActionName("GetPackageCdnApi"), HttpGet]
+        public virtual ActionResult GetPackageCdn(string id, string version)
+        {
+            return GetPackage(id, version, useCdn: true);
+        }
+
+        [ActionName("GetPackageApi"), HttpGet]
         public virtual ActionResult GetPackage(string id, string version)
+        {
+            return GetPackage(id, version, useCdn: false);
+        }
+
+        private ActionResult GetPackage(string id, string version, bool useCdn)
         {
             // if the version is null, the user is asking for the latest version. Presumably they don't want includePrerelease release versions. 
             // The allow prerelease flag is ignored if both partialId and version are specified.
@@ -48,7 +59,7 @@ namespace NuGetGallery
                 return Redirect(package.ExternalPackageUrl);
             else
             {
-                return packageFileSvc.CreateDownloadPackageActionResult(package);
+                return packageFileSvc.CreateDownloadPackageActionResult(package, useCdn);
             }
         }
 

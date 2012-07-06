@@ -16,7 +16,7 @@ namespace NuGetGallery.Services
             var fileStorage = new Mock<IFileStorageService>(MockBehavior.Strict);
             fileStorage.Setup(s => s.FileExists("downloads", "nuget.exe"))
                        .Returns(true).Verifiable();
-            fileStorage.Setup(s => s.CreateDownloadFileActionResult("downloads", "nuget.exe"))
+            fileStorage.Setup(s => s.CreateDownloadFileActionResult("downloads", "nuget.exe", false))
                        .Returns(Mock.Of<ActionResult>())
                        .Verifiable();
 
@@ -36,7 +36,7 @@ namespace NuGetGallery.Services
             fileStorage.Setup(s => s.FileExists("downloads", "nuget.exe")).Returns(false);
             fileStorage.Setup(s => s.SaveFile("downloads", "nuget.exe", It.IsAny<Stream>()))
                        .Verifiable();
-            fileStorage.Setup(s => s.CreateDownloadFileActionResult("downloads", "nuget.exe"))
+            fileStorage.Setup(s => s.CreateDownloadFileActionResult("downloads", "nuget.exe", false))
                        .Returns(Mock.Of<ActionResult>())
                        .Verifiable();
 

@@ -28,7 +28,8 @@ namespace NuGetGallery
 
         public ActionResult CreateDownloadFileActionResult(
             string folderName,
-            string fileName)
+            string fileName,
+            bool useCdn)
         {
             if (String.IsNullOrWhiteSpace(folderName))
                 throw new ArgumentNullException("folderName");

@@ -36,6 +36,14 @@ namespace NuGetGallery {
         public System.Web.Mvc.ActionResult GetPackage() {
             return new T4MVC_ActionResult(Area, Name, ActionNames.GetPackage);
         }
+
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public System.Web.Mvc.ActionResult GetPackageCdn()
+        {
+            return new T4MVC_ActionResult(Area, Name, ActionNames.GetPackageCdn);
+        }
+
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public System.Web.Mvc.ActionResult VerifyPackageKey() {
@@ -85,6 +93,7 @@ namespace NuGetGallery {
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNamesClass {
             public readonly string GetPackage = "GetPackageApi";
+            public readonly string GetPackageCdn = "GetPackageCdnApi";
             public readonly string GetNuGetExe = "GetNuGetExeApi";
             public readonly string VerifyPackageKey = "VerifyPackageKeyApi";
             public readonly string CreatePackagePut = "PushPackageApi";

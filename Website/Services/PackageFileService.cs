@@ -15,13 +15,14 @@ namespace NuGetGallery
             this.fileStorageSvc = fileStorageSvc;
         }
 
-        public ActionResult CreateDownloadPackageActionResult(Package package)
+        public ActionResult CreateDownloadPackageActionResult(Package package, bool useCdn)
         {
             var fileName = BuildFileName(package);
 
             return fileStorageSvc.CreateDownloadFileActionResult(
                 Constants.PackagesFolderName,
-                fileName);
+                fileName,
+                useCdn);
         }
 
         public void DeletePackageFile(

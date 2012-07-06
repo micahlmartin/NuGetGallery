@@ -181,13 +181,21 @@ namespace NuGetGallery
                 MVC.Api.GetPackage(),
                 defaults: new { version = UrlParameter.Optional },
                 constraints: new { httpMethod = new HttpMethodConstraint("GET") });
-            
+
+           
             routes.MapRoute(
                 "v2" + RouteName.DownloadPackage,
                 "api/v2/package/{id}/{version}",
                 MVC.Api.GetPackage(),
                 defaults: new { version = UrlParameter.Optional },
                 constraints: new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+               "v2" + RouteName.DownloadPackage + "cdn",
+               "api/v2/package/{id}/{version}",
+               MVC.Api.GetPackageCdn(),
+               defaults: new { version = UrlParameter.Optional },
+               constraints: new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 "v2" + RouteName.PushPackageApi,
@@ -221,6 +229,11 @@ namespace NuGetGallery
             routes.MapServiceRoute(
                 RouteName.V2ApiFeed,
                 "api/v2/",
+                typeof(V2Feed));
+
+            routes.MapServiceRoute(
+                RouteName.V2ApiFeed + "Cdn",
+                "api/cdn/",
                 typeof(V2Feed));
 
             routes.MapRoute(

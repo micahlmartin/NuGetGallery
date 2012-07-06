@@ -25,12 +25,13 @@ namespace NuGetGallery
 
         public ActionResult CreateDownloadFileActionResult(
             string folderName,
-            string fileName)
+            string fileName, 
+            bool useCdn)
         {
             var container = GetContainer(folderName);
             var blob = container.GetBlobReference(fileName);
 
-            var redirectUri = GetRedirectUri(blob.Uri);
+            var redirectUri = GetRedirectUri(blob.Uri, useCdn);
 
             return new RedirectResult(blob.Uri.ToString(), false);
         }
@@ -130,9 +131,9 @@ namespace NuGetGallery
             blob.SetProperties();
         }
 
-        private Uri GetRedirectUri(Uri blobUri)
+        private Uri GetRedirectUri(Uri blobUri, bool useCdn)
         {
-            if (!String.IsNullOrEmpty(configuration.AzureCdnHost))
+            if (useCdn && !String.IsNullOrEmpty(configuration.AzureCdnHost))
             {
                 // If a Cdn is specified, convert hte blob url to an Azure Cdn url.
                 UriBuilder builder = new UriBuilder(blobUri.Scheme, configuration.AzureCdnHost);

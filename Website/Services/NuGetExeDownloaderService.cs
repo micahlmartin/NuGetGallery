@@ -26,7 +26,7 @@ namespace NuGetGallery
         public ActionResult CreateNuGetExeDownloadActionResult()
         {
             EnsureNuGetExe();
-            return fileStorageSvc.CreateDownloadFileActionResult(Constants.DownloadsFolderName, "nuget.exe");
+            return fileStorageSvc.CreateDownloadFileActionResult(Constants.DownloadsFolderName, "nuget.exe", useCdn: false);
         }
 
         public void UpdateExecutable(IPackage zipPackage)

@@ -51,10 +51,14 @@ namespace NuGetGallery
             return url.Package(package.Id);
         }
 
-        public static string PackageDownload(this UrlHelper url, int feedVersion, string id, string version)
+        public static string PackageDownload(this UrlHelper url, int feedVersion, string id, string version, bool useCdn = false)
         {
             string routeName = "v" + feedVersion + RouteName.DownloadPackage;
-            return url.RouteUrl(routeName, new { Id = id, Version = version }, protocol: "http");
+            if (useCdn)
+            {
+                routeName += "cdn";
+            }
+            return url.RouteUrl(routeName, new { Id = id, Version = version }, protocol: "https");
         }
 
         public static string LogOn(this UrlHelper url)
