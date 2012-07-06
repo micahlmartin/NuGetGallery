@@ -192,7 +192,7 @@ namespace NuGetGallery
 
             routes.MapRoute(
                "v2" + RouteName.DownloadPackage + "cdn",
-               "api/v2/package/{id}/{version}",
+               "api/v2/package-cdn/{id}/{version}",
                MVC.Api.GetPackageCdn(),
                defaults: new { version = UrlParameter.Optional },
                constraints: new { httpMethod = new HttpMethodConstraint("GET") });
