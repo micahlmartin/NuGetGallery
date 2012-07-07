@@ -86,7 +86,7 @@ namespace NuGetGallery
         {
             get
             {
-                return ReadAppSettings("EnableAzureCdn");
+                return ReadAppSettings("AzureCdnHost");
             }
         }
 

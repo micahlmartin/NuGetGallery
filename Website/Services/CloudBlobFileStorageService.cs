@@ -135,7 +135,7 @@ namespace NuGetGallery
         {
             if (useCdn && !String.IsNullOrEmpty(configuration.AzureCdnHost))
             {
-                // If a Cdn is specified, convert hte blob url to an Azure Cdn url.
+                // If a Cdn is specified, convert the blob url to an Azure Cdn url.
                 UriBuilder builder = new UriBuilder(blobUri.Scheme, configuration.AzureCdnHost);
                 builder.Path = blobUri.AbsolutePath;
                 builder.Query = blobUri.Query;
