@@ -46,6 +46,11 @@ namespace NuGetGallery {
 
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public System.Web.Mvc.JsonResult GetDependents() {
+            return new T4MVC_JsonResult(Area, Name, ActionNames.GetDependents);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public System.Web.Mvc.ActionResult VerifyPackageKey() {
             return new T4MVC_ActionResult(Area, Name, ActionNames.VerifyPackageKey);
         }
@@ -95,6 +100,7 @@ namespace NuGetGallery {
             public readonly string GetPackage = "GetPackageApi";
             public readonly string GetPackageCdn = "GetPackageCdnApi";
             public readonly string GetNuGetExe = "GetNuGetExeApi";
+            public readonly string GetDependents = "GetDependents";
             public readonly string VerifyPackageKey = "VerifyPackageKeyApi";
             public readonly string CreatePackagePut = "PushPackageApi";
             public readonly string CreatePackagePost = "PushPackageApi";
@@ -126,6 +132,12 @@ namespace NuGetGallery {
 
         public override System.Web.Mvc.ActionResult GetNuGetExe() {
             var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.GetNuGetExe);
+            return callInfo;
+        }
+
+        public override System.Web.Mvc.JsonResult GetDependents(NuGetGallery.ApiController.DependentsInput input) {
+            var callInfo = new T4MVC_JsonResult(Area, Name, ActionNames.GetDependents);
+            callInfo.RouteValueDictionary.Add("input", input);
             return callInfo;
         }
 

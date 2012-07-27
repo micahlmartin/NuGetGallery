@@ -49,9 +49,11 @@ namespace NuGetGallery
 
         private static void AppPostStart()
         {
+
             Routes.RegisterRoutes(RouteTable.Routes);
             GlobalFilters.Filters.Add(new ElmahHandleErrorAttribute());
             ValueProviderFactories.Factories.Add(new HttpHeaderValueProviderFactory());
+            ValueProviderFactories.Factories.Add(new JsonValueProviderFactory());
         }
 
         private static void BackgroundJobsPostStart()

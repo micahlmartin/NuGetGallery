@@ -1,0 +1,91 @@
+﻿<script type="text/javascript" src="/Scripts/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/Scripts/raphael-min.js"></script>
+<script type="text/javascript" src="/Scripts/dracula_graffle.js"></script>
+<script type="text/javascript" src="/Scripts/dracula_graph.js"></script>
+
+
+<div style="height: 50; weight: 1024; text-align: center">
+    <img src="/Content/ajax-loader.gif" style="width: 50; height: 50; position: absolute; top: 0; left: 600" id="wait" />
+</div>
+<div id="canvas"></div>
+   
+<script>
+    $(function () {
+        var g = new Graph();
+        var width = $(document).width() - 200;
+        var height = $(document).height() - 200;
+
+
+        var id = '@UrlData[0]',
+            version = '@UrlData[1]',
+            newNodes = [],
+            processing = 0;
+
+        function updateDependents() {
+            if (processing !== 0)
+                return;
+            else if (newNodes.length === 0) {
+                $('#wait').parent().html('<h3>No more dependencies found.</h3>');
+            }
+
+            var currentSnapshot = newNodes.slice(0);
+            processing = newNodes.length;
+            newNodes.length = 0;
+
+            $('#wait').show();
+            $.each(currentSnapshot, function () {
+                $.ajax({
+                    url: '/api/getdependents/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify(this),
+                    contentType: 'application/json, charset=utf-8',
+                    success: function (data) {
+                        processing--;
+                        drawResults(data, processing == 0);
+                        if (processing === 0) {
+                            $('#wait').hide();
+                        }
+                    }
+                });
+            });
+        }
+
+        function makeId(p) {
+            return p.id + ',' + p.version
+        }
+
+        function drawPackage(p) {
+            var id = makeId(p);
+            g.addNode(id, { label: p.id + '.' + p.version });
+            newNodes.push(p);
+            return id;
+        }
+
+        function drawResults(results, updateRendering) {
+            var added = false;
+            for (var i = 0; i < results.length; i++) {
+                var src = makeId(results[i].src);
+                $.each(results[i].dependents, function () {
+                    added = true;
+                    var nodeId = drawPackage(this);
+                    g.addEdge(nodeId, src, { directed: true });
+                });
+            }
+            if (added && updateRendering) {
+                layouter.layout();
+                renderer.draw();
+            }
+        }
+
+        newNodes.push({ id: id, version: version });
+        updateDependents();
+
+        var layouter = new Graph.Layout.Spring(g);
+
+        /* draw the graph using the RaphaelJS draw implementation */
+        renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
+
+        $(window).bind('mousewheel', function (e) { console.log("Scroll called"); updateDependents(); return false; });
+    });
+</script>

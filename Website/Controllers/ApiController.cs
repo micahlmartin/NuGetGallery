@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Data.Entity;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Web.Mvc;
 using System.Web.UI;
+using Ninject;
 using NuGet;
 
 namespace NuGetGallery
@@ -69,6 +71,61 @@ namespace NuGetGallery
         public virtual ActionResult GetNuGetExe()
         {
             return nugetExeDownloaderSvc.CreateNuGetExeDownloadActionResult();
+        }
+
+        public class DependentsInput
+        {
+            public string id { get; set; }
+            public string version { get; set; }
+        }
+
+        public class DependentsOutput
+        {
+            public DependentsInput src { get; set; }
+
+            public IEnumerable<DependentsInput> dependents { get; set; }
+        }
+
+        [ActionName("GetDependents")]
+        public virtual JsonResult GetDependents(DependentsInput src)
+        {
+            var packageRepo = Container.Kernel.Get<IEntityRepository<Package>>();
+            if (String.IsNullOrEmpty(src.version))
+            {
+                var latestPackage = packageRepo.GetAll().Include(p => p.PackageRegistration)
+                                                        .First(p => p.PackageRegistration.Id == src.id && p.IsLatest);
+                src.version = latestPackage.Version;
+            }
+
+            var output = new List<DependentsOutput>();
+
+                var semVer = SemanticVersion.Parse(src.version);
+                
+
+                var dependents = packageRepo.GetAll()
+                                              .Include(p => p.PackageRegistration)
+                                              .Include(p => p.Dependencies)
+                                              .Where(package => package.IsLatest && package.Dependencies.Any(d => d.Id == src.id))
+                                              .OrderByDescending(p => p.PackageRegistration.DownloadCount)
+                                              .Take(20)
+                                              .AsEnumerable();
+
+            var list = new List<DependentsInput>();
+            foreach(var item in dependents)
+            {
+                var dependency = item.Dependencies.First(d => d.Id.Equals(src.id, StringComparison.OrdinalIgnoreCase));
+                if (String.IsNullOrEmpty(dependency.VersionSpec) || ParseVSpec(dependency).Satisfies(semVer))
+                {
+                    list.Add(new DependentsInput { id = item.PackageRegistration.Id, version = item.Version });
+                }
+            }
+            output.Add(new DependentsOutput { src = src, dependents = list });
+            return new JsonResult { Data = output };
+        }
+
+        private static IVersionSpec ParseVSpec(PackageDependency d)
+        {
+            return VersionUtility.ParseVersionSpec(d.VersionSpec);
         }
 
         [ActionName("VerifyPackageKeyApi"), HttpGet]

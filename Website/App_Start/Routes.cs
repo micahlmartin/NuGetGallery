@@ -71,6 +71,8 @@ namespace NuGetGallery
                 "packages/{id}/{action}",
                 new { controller = MVC.Packages.Name });
 
+            
+
             var resendRoute = routes.MapRoute(
                "ResendConfirmation",
                "account/ResendConfirmation",
@@ -203,6 +205,11 @@ namespace NuGetGallery
                 MVC.Api.CreatePackagePut(),
                 defaults: null,
                 constraints: new { httpMethod = new HttpMethodConstraint("PUT") });
+
+            routes.MapRoute(
+                "getdependents",
+                "api/getdependents",
+                MVC.Api.GetDependents());
 
             routes.MapRoute(
                 "v2" + RouteName.DeletePackageApi,

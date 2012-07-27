@@ -718,6 +718,7 @@
     <Compile Include="ViewModels\UserProfileModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ajax-loader.gif" />
     <Content Include="Content\Images\changePassword.png" />
     <Content Include="Content\Images\copy.png" />
     <Content Include="Content\Images\errorPage.png" />
@@ -798,6 +799,9 @@
     <Content Include="Errors\Error.html" />
     <Content Include="favicon.ico" />
     <EmbeddedResource Include="Infrastructure\Elmah.SqlServer.sql" />
+    <Content Include="Scripts\dracula_graffle.js" />
+    <Content Include="Scripts\dracula_graph.js" />
+    <Content Include="Scripts\raphael-min.js" />
     <Content Include="Scripts\stats.js" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
@@ -890,6 +894,7 @@
     </None>
     <None Include="T4MVC.tt.settings.t4" />
     <Content Include="Views\Packages\_PackageDependencies.cshtml" />
+    <None Include="PackageGraph.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DynamicData\CustomPages\" />
