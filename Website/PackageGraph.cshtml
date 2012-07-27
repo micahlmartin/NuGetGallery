@@ -72,7 +72,7 @@
                     g.addEdge(nodeId, src, { directed: true });
                 });
             }
-            if (added && updateRendering) {
+            if (updateRendering) {
                 layouter.layout();
                 renderer.draw();
             }
