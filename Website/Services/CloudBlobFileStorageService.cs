@@ -33,7 +33,7 @@ namespace NuGetGallery
 
             var redirectUri = GetRedirectUri(blob.Uri, useCdn);
 
-            return new RedirectResult(blob.Uri.ToString(), false);
+            return new RedirectResult(redirectUri.OriginalString, false);
         }
 
         public void DeleteFile(

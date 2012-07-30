@@ -86,7 +86,7 @@ namespace NuGetGallery
                 var result = service.CreateDownloadFileActionResult(Constants.PackagesFolderName, "theFileName", false) as RedirectResult;
 
                 Assert.NotNull(result);
-                Assert.Equal("http://theuri/", result.Url);
+                Assert.Equal("http://theUri", result.Url);
             }
         }
 
